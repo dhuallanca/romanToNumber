@@ -1,8 +1,21 @@
 const { convertRomanNumberToInteger } = require('./roman-number-to-integer');
 describe('convert roman to numerical', () => {
 
-  test('should return invalid number', () => {
-    expect(convertRomanNumberToInteger('')).toEqual('Invalid roman number');
+  test('should return invalid number when is empty', () => {
+    expect(convertRomanNumberToInteger('')).toEqual('invalid roman number');
+  });
+
+
+  test.each `
+  romanNumber    | expected
+  ${'I'} | ${true}
+  ${'XXI'} | ${true}
+  ${'XIV'} | ${true}
+  ${'XLB'} | ${false}
+  ${'XC '} | ${false}
+  ` ('should verify if roman $romanNumber match with regex, expected $expected', ({ romanNumber, expected }) => {
+    const regex = /(?!\s)([M,D,C,L,X,V,I])+$/g;
+    expect(regex.test(romanNumber)).toEqual(expected);
   });
 
   test.each `
@@ -20,7 +33,7 @@ describe('convert roman to numerical', () => {
   ${'IX'} | ${9}
   ${'XX'} | ${20}
   ${'XIV'} | ${14}
-  ` ('roman $romanNumber to numerical equals $expected', ({ romanNumber, expected }) => {
+  ` ('should convert roman $romanNumber to numerical, expected $expected', ({ romanNumber, expected }) => {
     expect(convertRomanNumberToInteger(romanNumber)).toEqual(expected);
   });
 

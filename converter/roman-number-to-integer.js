@@ -10,7 +10,8 @@ const romanNumbersMap = new Map([
 let previousNumericalValue = 0;
 
 const convertRomanNumberToInteger = (romanNumber) => {
-  if (!romanNumber || romanNumber.trim().length < 1) return 'Invalid roman number';
+  const regex = /(?!\s)([M,D,C,L,X,V,I])+$/g;
+  if (!romanNumber || !regex.test(romanNumber)) return 'invalid roman number';
   previousNumericalValue = 0;
   const initialValue = 0;
   const numberConverted = romanNumber.split('').reverse().reduce(reducer, initialValue);
